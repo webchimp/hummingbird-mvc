@@ -72,13 +72,15 @@
 
 		/**
 		 * Render a template
-		 * @param  string $template Template name, may contain relative path information ('index', 'stuff/index')
-		 * @param  array  $data     Array of data to be passed to the template, keys will become variable names when imported into scope
+		 * @param string $template Template name, may contain relative path information ('index', 'stuff/index')
+		 * @param array  $data     Array of data to be passed to the template, keys will become variable names when imported into scope
+		 * @param string $dir      Path to override templates path
 		 */
-		function render($template, $data = array()) {
+		function render($template, $data = array(), $dir = null) {
 			global $site;
 			$request = $site->mvc->getRequest();
-			$include = sprintf('%s/%s.php', $this->pages_dir, $template);
+			$dir = $dir ? $dir : $this->pages_dir;
+			$include = sprintf('%s/%s.php', $dir, $template);
 			# Check whether the template exists or not
 			if ( file_exists($include) ) {
 				# Expand data
@@ -102,17 +104,19 @@
 
 		/**
 		 * Render a partial
-		 * @param  string $partial Partial name, may contain relative path information ('item', 'stuff/item')
-		 * @param  array  $data    Array of data to be passed to the template, keys will become variable names when imported into scope
+		 * @param string $partial  Partial name, may contain relative path information ('item', 'stuff/item')
+		 * @param array  $data     Array of data to be passed to the template, keys will become variable names when imported into scope
+		 * @param string $dir      Path to override partials path
 		 */
-		function partial($partial, $data = array()) {
+		function partial($partial, $data = array(), $dir = null) {
 			global $site;
 			$request = $site->mvc->getRequest();
+			$dir = $dir ? $dir : $this->parts_dir;
 			$div = strrpos($partial, '/');
 			$path = substr($partial, 0, $div);
 			$file = substr($partial, ++$div);
 			$partial = $path ? "{$path}/_{$file}" : "_{$file}";
-			$include = sprintf('%s/%s.php', $this->parts_dir, $partial);
+			$include = sprintf('%s/%s.php', $dir, $partial);
 			# Check whether the template exists or not
 			if ( file_exists($include) ) {
 				# Expand data
@@ -125,7 +129,7 @@
 				# Include file
 				include $include;
 			} else {
-				echo "<div>View error: partial '{$include}' does not exist.</div>";
+				echo "<div>View error: partial '{$partial}' does not exist.</div>";
 			}
 		}
 

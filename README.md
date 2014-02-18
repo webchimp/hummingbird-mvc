@@ -3,7 +3,7 @@ Hummingbird MVC
 
 MVC layer for Hummingbird Lite.
 
-**Current version:** 1.0
+**Current version:** 1.3
 
 ### Requirements ###
 
@@ -31,7 +31,7 @@ You create your controllers, models and views by extending the Controller, Model
 
 Check the included controller samples to know more about the naming convention: it only applies to controllers, but the general rule is, if your route is '/cats', your class will be 'CatsController'.
 
-At the moment, '/my-fancy-route' => 'MyFancyRouteController' controllers are not supported, but this will be (hopefully) added soon.
+Since version 1.3 '/my-fancy-route' => 'MyFancyRouteController' controllers are supported: dashes will be camelCased for actions and UpperCased for controllers.
 
 Also check the View class, it has some helper methods for rendering templates and including partials. All the code is fully documented as usual, so take a look the source when in doubt.
 

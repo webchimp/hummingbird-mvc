@@ -6,7 +6,7 @@
 	 * A simple, yet powerful MVC layer for hummingbird, it has controllers, models, views and that
 	 * kind of stuff that makes developers go bonkers and code awesome apps.
 	 *
-	 * @version 1.1
+	 * @version 1.3
 	 * @author  biohzrdmx <github.com/biohzrdmx>
 	 * @license MIT
 	 */
@@ -84,7 +84,7 @@
 			# Check whether the template exists or not
 			if ( file_exists($include) ) {
 				# Expand data
-				extract($data, EXTR_REFS | EXTR_SKIP);
+				extract($data, EXTR_SKIP);
 				# Set body slug
 				$site->addBodyClass($request->controller);
 				$site->addBodyClass($request->controller . '-' . $request->action);
@@ -120,7 +120,7 @@
 			# Check whether the template exists or not
 			if ( file_exists($include) ) {
 				# Expand data
-				extract($data, EXTR_REFS | EXTR_SKIP);
+				extract($data, EXTR_SKIP);
 				# Import globals
 				extract($GLOBALS, EXTR_REFS | EXTR_SKIP);
 				# Hide function parameters
@@ -601,6 +601,7 @@
 			$id =         isset( $params[3] ) ? $params[3] : '';
 			# Check whether the request may be handled by a controller or not
 			$controllerClass = ucfirst("{$controller}Controller");
+			$controllerClass = str_replace(' ', '', ucwords(str_replace('-', ' ', $controllerClass)));
 			$instance = null;
 			if ( class_exists( $controllerClass ) ) {
 				$instance = new $controllerClass;
@@ -611,6 +612,8 @@
 			if ( $instance ) {
 				# Relay to the controller
 				$method = "{$action}Action";
+				$method = str_replace(' ', '', ucwords(str_replace('-', ' ', $method)));
+				$method[0] = strtolower( $method[0] );
 				$alias = $instance->getActionAs($action);
 				$method = method_exists($instance, $method) ? $method : ($alias ? $alias : 'showAction');  // check existing methods, then check aliases, then default to 'show'
 				# Check controller chaining

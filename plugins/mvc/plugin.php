@@ -6,7 +6,7 @@
 	 * A simple, yet powerful MVC layer for hummingbird, it has controllers, models, views and that
 	 * kind of stuff that makes developers go bonkers and code awesome apps.
 	 *
-	 * @version 1.3
+	 * @version 1.4
 	 * @author  biohzrdmx <github.com/biohzrdmx>
 	 * @license MIT
 	 */
@@ -88,7 +88,7 @@
 				# Set body slug
 				$site->addBodyClass($request->controller);
 				$site->addBodyClass($request->controller . '-' . $request->action);
-				$site->addBodyClass( str_replace('/', '-', $template) );
+				$site->addBodyClass( trim( str_replace('/', '-', $template), '-' ) );
 				# Import globals
 				extract($GLOBALS, EXTR_REFS | EXTR_SKIP);
 				# Hide function parameters
